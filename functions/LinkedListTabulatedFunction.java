@@ -1,5 +1,7 @@
 package functions;
 
+import java.io.*;
+
 public class LinkedListTabulatedFunction implements TabulatedFunction{
 
     private class FunctionNode {

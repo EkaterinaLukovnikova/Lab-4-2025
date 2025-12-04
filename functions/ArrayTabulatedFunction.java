@@ -1,11 +1,32 @@
 package functions;
 
-import java.io.Serializable;
+import java.io.*;
 
-public class ArrayTabulatedFunction implements TabulatedFunction, Serializable{
+public class ArrayTabulatedFunction implements TabulatedFunction, Externalizable{
     private FunctionPoint[] points;
     private int pointsCount;
     private final double EPSILON_DOUBLE = 1e-10;
+    public ArrayTabulatedFunction(){} 
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeInt(pointsCount);
+        for (int i = 0; i < pointsCount; i++) {
+            out.writeDouble(points[i].getX());
+            out.writeDouble(points[i].getY());
+        }
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        pointsCount = in.readInt();
+        points = new FunctionPoint[pointsCount + 10];
+        for (int i = 0; i < pointsCount; i++) {
+            double x = in.readDouble();
+            double y = in.readDouble();
+            points[i] = new FunctionPoint(x, y);
+        }
+    }
 
     public ArrayTabulatedFunction(FunctionPoint[] points) {
     if (points == null || points.length < 2) {
@@ -89,6 +110,13 @@ public class ArrayTabulatedFunction implements TabulatedFunction, Serializable{
         if (x < getLeftDomainBorder() || x > getRightDomainBorder()) {
             return Double.NaN;
         }
+        if (Math.abs(x - points[0].getX()) < EPSILON_DOUBLE) { 
+            return points[0].getY();
+        }
+
+        if (Math.abs(x  - points[pointsCount - 1].getX()) < EPSILON_DOUBLE) { 
+            return points[pointsCount - 1].getY();
+        }
 
         for (int i = 0; i < pointsCount - 1; i++) {
             double x_1 = points[i].getX();
@@ -103,6 +131,7 @@ public class ArrayTabulatedFunction implements TabulatedFunction, Serializable{
 
             if(Math.abs(x - points[i].getX()) < EPSILON_DOUBLE){
                 M = points[i].getY();
+                return M;
             }
 
         }

@@ -1,6 +1,8 @@
 package functions;
 
-public interface TabulatedFunction extends Function{
+import java.io.*;
+
+public interface TabulatedFunction extends Function, Serializable{
     int getPointsCount();
     FunctionPoint getPoint(int index);
     void setPoint(int index,FunctionPoint point) throws InappropriateFunctionPointException ;

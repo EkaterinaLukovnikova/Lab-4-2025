@@ -72,7 +72,7 @@ public class Main {
         ois.close();
 
         System.out.println("Логарифм от экспоненты():");
-        for (int i = 1; i < 11; i++) {
+        for (int i = 0; i < 11; i++) {
             System.out.printf("Exp(%d) = %.6f \t TabExp(%d) = %.6f%n", i, Сomposition.getFunctionValue(i), i, loadedComposition.getFunctionValue(i));
         }
     }

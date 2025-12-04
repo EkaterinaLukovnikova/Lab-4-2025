@@ -25,10 +25,10 @@ public class Log implements Function {
     @Override
     public double getFunctionValue(double x) {
         if (x <= 0) {
-            return Math.log(x) / Math.log(base);
+            return Double.NaN;
         }
         else{
-            return Double.NaN;
+            return Math.log(x) / Math.log(base);
         }
     }
 }
